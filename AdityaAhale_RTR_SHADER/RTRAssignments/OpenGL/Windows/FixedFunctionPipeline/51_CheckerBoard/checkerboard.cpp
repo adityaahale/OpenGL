@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 				if (gbEscKeyPressed == true)
 					bDone = true;
 			}
-			display();
+			//display();
 			spin();
 		}
 	}
@@ -335,7 +335,7 @@ void display(void)
 	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(2.41421f, -1.0f, -1.41421f);
 	glEnd();
-	glFlush();
+	
 	//SwapBuffers(ghdc);
 	}
 
@@ -372,6 +372,8 @@ void resize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	display();
+	glFlush();
 }
 
 void uninitialize()
