@@ -8,8 +8,12 @@
 
 #define WIN_WIDTH  800
 #define WIN_HEIGHT 600
-#define CHECK_IMAGE_WIDTH 64
-#define CHECK_IMAGE_HEIGHT 64
+
+bool bLight = false;
+GLfloat LightAmbient[] = { 0.5f,0.5f,0.5f,1.0f };
+GLfloat LightDiffuse[] = { 1.0f,1.0f,1.0f,1.0f };
+GLfloat LightPosition[] = { 0.0f,0.0f,2.0f,1.0f };
+
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int initialize(void);
@@ -28,9 +32,7 @@ HGLRC ghrc = NULL;
 FILE *gpFile = NULL;
 int count;
 GLfloat rot = 0.0f;
-GLfloat tri = 0.0f;
-GLubyte checkImage[CHECK_IMAGE_WIDTH][CHECK_IMAGE_HEIGHT][4];
-GLuint texImage;
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -62,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 
 	RegisterClassEx(&wndclass);
 
-	hwnd = CreateWindowEx(WS_EX_APPWINDOW, AppName, TEXT("Texture"), WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE, 0, 0, 800, 600, NULL, NULL, hInstance, NULL);
+	hwnd = CreateWindowEx(WS_EX_APPWINDOW, AppName, TEXT("Lights-Cube"), WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE, 0, 0, 800, 600, NULL, NULL, hInstance, NULL);
 
 	ghwnd = hwnd;
 
@@ -161,6 +163,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				gbFullScreen = false;
 			}
 			break;
+
+		case 0x4C:// L key
+			if (bLight == false)
+			{
+				bLight = true;
+				glEnable(GL_LIGHTING);
+			}
+			else
+			{
+				bLight = false;
+				glDisable(GL_LIGHTING);
+			}
+			break;
 		default:
 
 			break;
@@ -216,7 +231,7 @@ void ToggleScreen(void)
 int initialize(void)
 {
 	void resize(int, int);
-	void LoadGLTextures(void);
+
 	PIXELFORMATDESCRIPTOR pfd;
 	int iPixelFormatIndex;
 
@@ -224,7 +239,7 @@ int initialize(void)
 
 	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
 	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 	pfd.iPixelType = PFD_TYPE_RGBA;
 	pfd.cColorBits = 32;
 	pfd.cRedBits = 8;
@@ -265,44 +280,13 @@ int initialize(void)
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-	//enable textures here
-	glEnable(GL_TEXTURE_2D);
-	LoadGLTextures();
+	glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
+	glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);
+	glEnable(GL_LIGHT1);
+
 	resize(WIN_WIDTH, WIN_HEIGHT);
 	return 0;
-}
-
-
-void LoadGLTextures(void)
-{
-	void MakeCheckImage(void);
-	MakeCheckImage();
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &texImage);
-	glBindTexture(GL_TEXTURE_2D, texImage);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECK_IMAGE_WIDTH, CHECK_IMAGE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, &checkImage);
-	//gluBuild2DMipmaps(GL_TEXTURE_2D, 3, bmp.bmWidth, bmp.bmHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, bmp.bmBits);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	//glDeleteTextures(1, &texImage);
-}
-
-void MakeCheckImage(void)
-{
-	int i, j, c;
-	for (i = 0; i < CHECK_IMAGE_HEIGHT; i++) {
-		for (j = 0; j < CHECK_IMAGE_WIDTH; j++) {
-			c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0)) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = 255;
-		}
-	}
 }
 
 void display(void)
@@ -310,45 +294,63 @@ void display(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-	//glMatrixMode(GL_MODELVIEW_MATRIX);
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -3.5f);
-	
-	glBegin(GL_QUADS);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(-2.0f, -1.0f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(-2.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.0f, -1.0f, 0.0f);
 
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(1.0f, -1.0f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(2.41421f, 1.0f, -1.41421f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(2.41421f, -1.0f, -1.41421f);
+	glTranslatef(0.0f, 0.0f, -6.0f);
+	glScalef(0.75f, 0.75f, 0.75f);
+	glRotatef(rot, 1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	
+	glNormal3f(0.0f, 1.0f, 0.0f); //normal for top face of cube
+	glVertex3f(1.0f, 1.0f, -1.0f); 
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f); 
+	glVertex3f(1.0f, 1.0f, 1.0f); 
+
+								  
+	glNormal3f(0.0f, -1.0f, 0.0f); //normal for bottom face of cube
+	glVertex3f(1.0f, -1.0f, 1.0f); 
+	glVertex3f(-1.0f, -1.0f, 1.0f); 
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f); 
+
+									
+	glNormal3f(0.0f, 0.0f, 1.0f); //normal for front face of cube
+	glVertex3f(1.0f, 1.0f, 1.0f); 
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f); 
+	glVertex3f(1.0f, -1.0f, 1.0f); 
+
+								   
+	glNormal3f(0.0f, 0.0f, -1.0f); //normal for back face of cube
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f); 
+	glVertex3f(1.0f, 1.0f, -1.0f); 
+
+								   
+	glNormal3f(-1.0f, 0.0f, 0.0f); //normal for left face of cube
+	glVertex3f(-1.0f, 1.0f, 1.0f); 
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f); 
+
+									
+	glNormal3f(1.0f, 0.0f, 0.0f); //normal for right face of cube
+	glVertex3f(1.0f, 1.0f, -1.0f); 
+	glVertex3f(1.0f, 1.0f, 1.0f); 
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+
 	glEnd();
-	glFlush();
-	//SwapBuffers(ghdc);
-	}
+
+
+	SwapBuffers(ghdc);
+}
 
 
 void spin(void)
 {
-	tri = tri + 0.1f;
-
-	if (tri >= 360.0f)
-	{
-		tri = 0.0f;
-	}
-
 	rot = rot + 0.1f;
 	if (rot >= 360)
 	{
@@ -368,7 +370,7 @@ void resize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	gluPerspective(60.0f, (GLfloat)width / (GLfloat)height, 1.0f, 30.0f);
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -398,13 +400,10 @@ void uninitialize()
 		ReleaseDC(ghwnd, ghdc);
 		ghdc = NULL;
 	}
-
 	if (gpFile)
 	{
 		fprintf(gpFile, "File Close");
 		fclose(gpFile);
 		gpFile = NULL;
 	}
-	
-	//glDeleteTextures(1, &texImage);
 }
