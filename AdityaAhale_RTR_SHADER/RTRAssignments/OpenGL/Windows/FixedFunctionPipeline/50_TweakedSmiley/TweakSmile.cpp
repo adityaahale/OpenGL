@@ -25,7 +25,7 @@ HGLRC ghrc = NULL;
 FILE *gpFile = NULL;
 GLfloat Q1x=0.0f,Q1y=0.0f,Q2x=0.0f,Q2y=0.0f,Q3x=0.0f,Q3y=0.0,Q4x=0.0,Q4y=0.0;
 GLuint Texture_Smile;
-
+int pressKey = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -158,36 +158,28 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x31:
 		case VK_NUMPAD1:
-			glEnable(GL_TEXTURE_2D);
-			Q1x = 1.0f, Q1y = 1.0f, Q2x = 0.0f, Q2y = 1.0f, Q4x = 1.0f, Q4y = 0.0f;
+			pressKey = 1;
 			break;
 
 		case 0x32:
 		case VK_NUMPAD2:
-			glEnable(GL_TEXTURE_2D);
-			Q1x = 0.5f, Q1y = 0.5f, Q2x = 0.0f, Q2y = 0.5f, Q4x = 0.5f, Q4y = 0.0f;
+			pressKey = 2;
 			break;
 
 		case 0x33:
 		case VK_NUMPAD3:
-			glEnable(GL_TEXTURE_2D);
-			Q1x = 2.0f, Q1y = 2.0f, Q2x = 0.0f, Q2y = 2.0f, Q4x = 2.0f, Q4y = 0.0f;
+			pressKey = 3;
 			break;
 
 		case 0x34:
 		case VK_NUMPAD4:
-			glEnable(GL_TEXTURE_2D);
-			Q1x = 0.5f, Q1y = 0.5f, Q2x = 0.5f, Q2y =0.5f,Q3x=0.5f,Q3y=0.5f,Q4x = 0.5f, Q4y = 0.5f;
+			pressKey = 4;
+			//glDisable(GL_TEXTURE_2D);
 			break;
 
-		case VK_NUMPAD0:
-			glDisable(GL_TEXTURE_2D);
-			Q1x = 0.0f;
-			break;
-		
-		
 		default:
-			
+			glDisable(GL_TEXTURE_2D);
+			pressKey = 0;
 			break;
 		}
 	case WM_LBUTTONDOWN:
@@ -330,30 +322,84 @@ void display(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_MODELVIEW);
+	//glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -4.0f);
+	glTranslatef(0.0f, 0.0f, -6.0f);
 	glBindTexture(GL_TEXTURE_2D, Texture_Smile);
-	if (Q1x!=0.0f)
+
+	if (pressKey == 1) {
+		glEnable(GL_TEXTURE_2D);
+		Q1x = 1.0f, Q1y = 1.0f, Q2x = 0.0f, Q2y = 1.0f, Q4x = 1.0f, Q4y = 0.0f;
+		glBegin(GL_QUADS);
+		glTexCoord2f(Q1x, Q1y);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q2y);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q3y);
+		glVertex3f(-1.0f, -1.f, 0.0f);
+		glTexCoord2f(Q4x, Q4y);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+		//pressKey = 0;
+	}
+	else if (pressKey == 2) {
+		glEnable(GL_TEXTURE_2D);
+		Q1x = 0.5f, Q1y = 0.5f, Q2x = 0.0f, Q2y = 0.5f, Q4x = 0.5f, Q4y = 0.0f;
+		glBegin(GL_QUADS);
+		glTexCoord2f(Q1x, Q1y);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q2y);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q3y);
+		glVertex3f(-1.0f, -1.f, 0.0f);
+		glTexCoord2f(Q4x, Q4y);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+		//pressKey = 0;
+	}
+	else if (pressKey == 3)
 	{
 		glEnable(GL_TEXTURE_2D);
+		Q1x = 2.0f, Q1y = 2.0f, Q2x = 0.0f, Q2y = 2.0f, Q4x = 2.0f, Q4y = 0.0f;
+		glBegin(GL_QUADS);
+		glTexCoord2f(Q1x, Q1y);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q2y);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(Q2x, Q3y);
+		glVertex3f(-1.0f, -1.f, 0.0f);
+		glTexCoord2f(Q4x, Q4y);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+		//pressKey = 0;
 	}
-	else {
+	else if (pressKey == 4) {
+		glEnable(GL_TEXTURE_2D);
+		//Q1x = 0.5f, Q1y = 0.5f, Q2x = 0.5f, Q2y =0.5f,Q3x=0.5f,Q3y=0.5f,Q4x = 0.5f, Q4y = 0.5f;
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.5f,0.5f);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(-1.0f, -1.f, 0.0f);
+		glTexCoord2f(0.5f, 0.5f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
+		//glDisable(GL_TEXTURE_2D);
+		//pressKey = 0;
+	}
+	else if(pressKey==0){
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex3f(1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 0.0f);
+		glEnd();
 	}
-	
-	glBegin(GL_QUADS);
-	glTexCoord2f(Q1x, Q1y);
-	glVertex3f(1.0f, 0.5f, 0.0f);
-	glTexCoord2f(Q2x, Q2y);
-	glVertex3f(-1.0f, 0.5f, 0.0f);
-	glTexCoord2f(Q2x, Q3y);
-	glVertex3f(-1.0f, -0.5f, 0.0f);
-	glTexCoord2f(Q4x, Q4y);
-	glVertex3f(1.0f, -0.5f, 0.0f);
 
-	glEnd();
 
 	SwapBuffers(ghdc);
 }
