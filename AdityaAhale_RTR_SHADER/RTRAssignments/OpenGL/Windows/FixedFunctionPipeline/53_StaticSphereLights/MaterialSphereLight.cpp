@@ -10,15 +10,15 @@
 #define WIN_HEIGHT 600
 
 bool bLight = false;
-GLfloat LightAmbient[] = { 0.5f,0.5f,0.5f,1.0f };
-GLfloat LightDiffuse[] = { 1.0f,1.0f,1.0f,1.0f };
-GLfloat LightPosition[] = { 0.0f,0.0f,2.0f,1.0f };
-GLfloat LightSpecular[] = { 100.0f,100.0f,100.0f,100.0f };
-//GLfloat LightSpecular[] = { 1.0f,1.0f,1.0f,1.0f };
+GLfloat LightAmbient[] = { 0.0f,0.0f,0.0f,1.0f };
+GLfloat LightDiffuse[] = { 0.9f,0.9f,0.9f,0.9f };
+GLfloat LightPosition[] = { 10.0f,10.0f,10.0f,1.0f };
+//GLfloat LightSpecular[] = { 100.0f,100.0f,100.0f,100.0f };
+GLfloat LightSpecular[] = { 1.0f,1.0f,1.0f,1.0f };
 
 GLfloat MaterialAmbient[] = { 0.5f,0.5f,0.5f,1.0f };
 GLfloat MaterialDiffuse[] = { 1.0f,1.0f,1.0f,1.0f };
-GLfloat MaterialShininess[] = { 128.0f };
+GLfloat MaterialShininess[] = { 300.0f };
 GLfloat MaterialSpecular[] = { 1.0f,1.0f,1.0f,1.0f };
 
 
@@ -292,10 +292,10 @@ int initialize(void)
 	glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, LightSpecular);
 	
-	glMaterialfv(GL_LIGHT1, GL_AMBIENT, MaterialAmbient);
-	glMaterialfv(GL_LIGHT1, GL_DIFFUSE, MaterialDiffuse);
-	glMaterialfv(GL_LIGHT1, GL_POSITION, MaterialShininess);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, MaterialSpecular);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, MaterialAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, MaterialDiffuse);
+	glMaterialfv(GL_FRONT, GL_SHININESS, MaterialShininess);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, MaterialSpecular);
 
 	glEnable(GL_LIGHT1);
 
@@ -310,10 +310,10 @@ void display(void)
 
 	glLoadIdentity();
 
-	glTranslatef(0.0f, 0.0f, -0.70f);
+	glTranslatef(0.0f, 0.0f, -0.75f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	quadric = gluNewQuadric();
-	gluSphere(quadric, 0.2, 30, 30);
+	gluSphere(quadric, 0.2, 500, 500);
 
 	SwapBuffers(ghdc);
 }
