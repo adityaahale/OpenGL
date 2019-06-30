@@ -1,0 +1,8 @@
+#include "mytex.h"
+
+IDBITMAP_EARTH BITMAP earth.bmp
+IDBITMAP_STONE BITMAP Stone.bmp
+IDBITMAP_MOON BITMAP moon.bmp
+IDBITMAP_MARS BITMAP mars.bmp
+IDWM_DC	WAVE	"explosion2.wav"
+IDS_DC WAVE		"song.wav"

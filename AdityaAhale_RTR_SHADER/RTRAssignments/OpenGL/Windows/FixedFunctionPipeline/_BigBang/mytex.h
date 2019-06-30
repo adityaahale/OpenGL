@@ -1,0 +1,7 @@
+#pragma once
+#define IDBITMAP_EARTH 1001
+#define IDBITMAP_STONE 1002
+#define IDBITMAP_MOON 1003
+#define IDWM_DC 1004
+#define IDS_DC 1015
+#define IDBITMAP_MARS 1007
