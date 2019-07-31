@@ -1,12 +1,18 @@
+
+
 #include<iostream>
 #include<stdlib.h>
 #include<stdio.h>
 #include<memory.h>
-#include<string>
+
 #include<X11/Xlib.h>
 #include<X11/Xutil.h>
 #include<X11/XKBlib.h>
 #include<X11/keysym.h>
+
+#include<GL/gl.h>
+#include<GL/glx.h>
+#include<GL/glu.h>
 
 using namespace std;
 
@@ -20,103 +26,100 @@ XVisualInfo *gpXVisualInfo=NULL;
 Colormap gcolormap;
 Window gWindow;
 
+
+GLXContext gGLXContext;
+
 int main(void)
 {
-	static XFontStruct *pxFontStruct=NULL;
-	static GC gc;
-	XGCValues gcValues;
-	XColor text_color;
-	char str[]="Hello World !!!";
-	int StrLen;
-	int strWidth,fontHeight,map_x,map_y;
 	void CreateWindow(void);
 	void ToggleFullscreen(void);
-	void uninitialize();
+	void uninitialize(void);
+	
+	//change for OGL
+	void initialize(void);
+	void display(void);
+	void resize(int,int);
 	
 	int WinWidth=giWindowWidth;
 	int WinHeight=giWindowHeight;
+	bool bDone=false;
 	
 	//code
 	CreateWindow();
+	initialize();			//change for OGL
 	
 	//game loop
 	XEvent event;
 	KeySym keysym;
 	
 	
-	while(1)
+	while(bDone==false)
 	{
-		XNextEvent(gpDisplay,&event);	
-		switch(event.type)
+		while(XPending(gpDisplay))	//game loop
 		{
-			case MapNotify:
-				pxFontStruct=XLoadQueryFont(gpDisplay,"9x15");
-				break;
-			case KeyPress:
-				keysym=XkbKeycodeToKeysym(gpDisplay,event.xkey.keycode,0,0);
-				switch(keysym)
-				{
-				case XK_Escape:
+		
+			XNextEvent(gpDisplay,&event);	
+			switch(event.type)
+			{
+				case MapNotify:
+					break;
+				case KeyPress:
+					keysym=XkbKeycodeToKeysym(gpDisplay,event.xkey.keycode,0,0);
+					switch(keysym)
+					{
+					case XK_Escape:
+						uninitialize();
+						exit(0);
+						break;
+					case XK_F:
+					case XK_f:
+						if(bFullScreen==false)
+						{
+							ToggleFullscreen();
+							bFullScreen=true;
+						}
+						else
+						{
+							ToggleFullscreen();
+							bFullScreen=false;
+						}
+						break;
+					}
+					break;
+				case ButtonPress:
+					switch(event.xbutton.button)
+					{
+						case 1:
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+						default:
+							break;
+					}
+					break;
+				case MotionNotify:
+					break;
+				case ConfigureNotify:
+					WinWidth=event.xconfigure.width;
+					WinHeight=event.xconfigure.height;
+					resize(WinWidth,WinHeight);
+					break;
+				case Expose:
+					break;
+				case DestroyNotify:
+					break;
+				case 33:
 					uninitialize();
 					exit(0);
 					break;
-				case XK_F:
-				case XK_f:
-					if(bFullScreen==false)
-					{
-						ToggleFullscreen();
-						bFullScreen=true;
-					}
-					else
-					{
-						ToggleFullscreen();
-						bFullScreen=false;
-					}
+				default:
 					break;
-				}
-				break;
-			case ButtonPress:
-				switch(event.xbutton.button)
-				{
-					case 1:
-						break;
-					case 2:
-						break;
-					case 3:
-						break;
-					default:
-						break;
-				}
-				break;
-			case MotionNotify:
-				break;
-			case ConfigureNotify:
-				WinWidth=event.xconfigure.width;
-				WinHeight=event.xconfigure.height;
-				break;
-			case Expose:
-				gc=XCreateGC(gpDisplay,gWindow,0,&gcValues);
-				XSetFont(gpDisplay,gc,pxFontStruct->fid);
-				XAllocNamedColor(gpDisplay,gcolormap,"green",&text_color,&text_color);
-				XSetForeground(gpDisplay,gc,text_color.pixel);
-				StrLen=strlen(str);
-				strWidth=XTextWidth(pxFontStruct,str,StrLen);
-				fontHeight=pxFontStruct->ascent+pxFontStruct->descent;
-				XDrawString(gpDisplay,gWindow,gc,(WinWidth-strWidth)/2,(WinHeight-fontHeight)/2,str,StrLen);
-				break;
-			case DestroyNotify:
-				break;
-			case 33:
-				XFreeGC(gpDisplay,gc);
-				XUnloadFont(gpDisplay,pxFontStruct->fid);
-				uninitialize();
-				exit(0);
-				break;
-			default:
-				break;
+			}
 		}
+		display();
 	}
-	
 	uninitialize();
 	return 0;
 }
@@ -124,10 +127,17 @@ int main(void)
 void CreateWindow(void)
 {
 	void uninitialize(void);
+	
+	
 	XSetWindowAttributes winAttribs;
 	int defaultScreen;
 	int defaultDepth;
 	int styleMask;
+	
+	static int frameBufferAttributes[]=
+	{
+		GLX_RGBA,GLX_RED_SIZE,1,GLX_GREEN_SIZE,1,GLX_BLUE_SIZE,1,GLX_ALPHA_SIZE,1,None
+	};
 	
 	
 	gpDisplay=XOpenDisplay(NULL);
@@ -138,24 +148,11 @@ void CreateWindow(void)
 		exit(1);
 	}
 	defaultScreen=XDefaultScreen(gpDisplay);
-	defaultDepth=DefaultDepth(gpDisplay,defaultScreen);
-	gpXVisualInfo=(XVisualInfo *)malloc(sizeof(XVisualInfo));
 	
-	if(gpXVisualInfo==NULL)
-	{
-		printf("\nERROR: Unable to allocate visual memory.Exiting...\n");
-		uninitialize();
-		exit(1);
-	}
-	XMatchVisualInfo(gpDisplay,defaultScreen,defaultDepth,TrueColor,gpXVisualInfo);
-	if(gpXVisualInfo==NULL)
-	{
-		printf("\nError:Unable to get visual..exiting..\n");
-		uninitialize();
-		exit(1);
-	}
+	gpXVisualInfo=glXChooseVisual(gpDisplay,defaultScreen,frameBufferAttributes);	// change for OGL
 	
 	winAttribs.border_pixel=0;
+	winAttribs.background_pixmap=0;
 	winAttribs.colormap=XCreateColormap(gpDisplay,RootWindow(gpDisplay,gpXVisualInfo->screen),gpXVisualInfo->visual,AllocNone);
 	gcolormap=winAttribs.colormap;
 	winAttribs.background_pixel=BlackPixel(gpDisplay,defaultScreen);
@@ -202,6 +199,21 @@ void ToggleFullscreen()
 
 void uninitialize()
 {
+	GLXContext ctx;
+	ctx=glXGetCurrentContext();
+	
+	//OGL changes
+	if(ctx!=NULL && ctx==gGLXContext)
+	{
+		glXMakeCurrent(gpDisplay,0,0);
+	}
+	
+	if(ctx)
+	{
+		glXDestroyContext(gpDisplay,ctx);
+	}
+	
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay,gWindow);
@@ -224,3 +236,31 @@ void uninitialize()
 		gpDisplay=NULL;
 	}
 }
+
+void resize(int width,int height)
+{
+	if(height==0)
+		height=1;
+	glViewport(0,0,(GLsizei)width,(GLsizei)height);
+}
+
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glFlush();
+}
+
+void initialize()
+{
+
+	gGLXContext=glXCreateContext(gpDisplay,gpXVisualInfo,NULL,GL_TRUE);
+	
+	glXMakeCurrent(gpDisplay,gWindow,gGLXContext);
+	
+	glClearColor(0.0f,0.0f,1.0f,0.0f);
+	
+	resize(giWindowWidth,giWindowHeight);
+
+
+}
+
