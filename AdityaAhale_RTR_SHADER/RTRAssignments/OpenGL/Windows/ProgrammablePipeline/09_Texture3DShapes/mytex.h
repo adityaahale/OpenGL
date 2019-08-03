@@ -1,0 +1,3 @@
+#pragma once
+#define IDBITMAP_KUNDALI 1001
+#define IDBITMAP_STONE 1002
