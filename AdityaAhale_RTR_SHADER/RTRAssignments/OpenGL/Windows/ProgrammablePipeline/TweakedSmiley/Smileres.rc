@@ -1,0 +1,3 @@
+#include "smile.h"
+
+IDBITMAP_SMILEY BITMAP Smiley.bmp
