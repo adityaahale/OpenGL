@@ -41,7 +41,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 	private int[] vbo_position = new int[1];
 	private int[] vbo_texure = new int[1];
 	private int mvpUniform;
-	private int texture0_sampler_uniform;
+	private int sampler_uniform;
 	
 	private int[] texture_smiley = new int[1];
 	private float perspectiveProjectionMatrix[]=new float[16];
@@ -249,7 +249,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 	};
 		//get MVP uniform location
 		mvpUniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_mvp_matrix");
-		texture0_sampler_uniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_texture0_sampler");
+		sampler_uniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_texture0_sampler");
 		
 		//load texture images
 		texture_smiley[0] = loadGLTexture(R.raw.smiley);
@@ -341,7 +341,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		//bind pyramid texture
 		GLES32.glActiveTexture(GLES32.GL_TEXTURE0);
 		GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, texture_smiley[0]);
-		GLES32.glUniform1i(texture0_sampler_uniform, 0);
+		GLES32.glUniform1i(sampler_uniform, 0);
 
 		//draw using glDrawArrays
 		GLES32.glDrawArrays(GLES32.GL_TRIANGLE_FAN, 0, 4);
