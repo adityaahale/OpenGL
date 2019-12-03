@@ -567,9 +567,9 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		GLES32.glTexParameteri(GLES32.GL_TEXTURE_2D, GLES32.GL_TEXTURE_MAG_FILTER, GLES32.GL_LINEAR);
 		GLES32.glTexParameteri(GLES32.GL_TEXTURE_2D, GLES32.GL_TEXTURE_MIN_FILTER, GLES32.GL_LINEAR_MIPMAP_LINEAR);
 		GLUtils.texImage2D(GLES32.GL_TEXTURE_2D, 0, bitmap, 0);
-
-		GLES32.glGenerateMipmap(GLES32.GL_TEXTURE_2D);
 		
+		GLES32.glGenerateMipmap(GLES32.GL_TEXTURE_2D);
+		GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, 0);
 		return(texture[0]);
 		
 	}
