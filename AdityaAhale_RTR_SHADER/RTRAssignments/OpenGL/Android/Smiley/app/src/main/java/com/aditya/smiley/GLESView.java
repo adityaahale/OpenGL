@@ -342,7 +342,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		GLES32.glActiveTexture(GLES32.GL_TEXTURE0);
 		GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, texture_smiley[0]);
 		GLES32.glUniform1i(texture0_sampler_uniform, 0);
-		
+
 		//draw using glDrawArrays
 		GLES32.glDrawArrays(GLES32.GL_TRIANGLE_FAN, 0, 4);
 		
