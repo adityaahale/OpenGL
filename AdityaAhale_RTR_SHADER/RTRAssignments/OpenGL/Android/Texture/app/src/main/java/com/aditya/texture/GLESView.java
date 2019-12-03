@@ -47,7 +47,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 	private int[] vbo_color = new int[1];
 	private int[] vbo_texure = new int[1];
 	private int mvpUniform;
-	private int texture0_sampler_uniform;
+	private int sampler_uniform;
 	
 	private int[] texture_kundali = new int[1];
 	private int[] texture_stone = new int[1];
@@ -248,7 +248,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		
 		//get MVP uniform location
 		mvpUniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_mvp_matrix");
-		texture0_sampler_uniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_texture0_sampler");
+		sampler_uniform = GLES32.glGetUniformLocation(shaderProgramObject, "u_texture0_sampler");
 		
 		//load texture images
 		
@@ -492,7 +492,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		//bind pyramid texture
 		GLES32.glActiveTexture(GLES32.GL_TEXTURE0);
 		GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, texture_stone[0]);
-		GLES32.glUniform1i(texture0_sampler_uniform, 0);
+		GLES32.glUniform1i(sampler_uniform, 0);
 		
 		//draw using glDrawArrays
 		GLES32.glDrawArrays(GLES32.GL_TRIANGLES, 0, 12);
@@ -522,7 +522,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		//bind cube texture
 		GLES32.glActiveTexture(GLES32.GL_TEXTURE0);
 		GLES32.glBindTexture(GLES32.GL_TEXTURE_2D, texture_kundali[0]);
-		GLES32.glUniform1i(texture0_sampler_uniform, 0);
+		GLES32.glUniform1i(sampler_uniform, 0);
 		//draw using glDrawArrays
 		GLES32.glDrawArrays(GLES32.GL_TRIANGLE_FAN, 0, 4); 
 		GLES32.glDrawArrays(GLES32.GL_TRIANGLE_FAN, 4, 4);
