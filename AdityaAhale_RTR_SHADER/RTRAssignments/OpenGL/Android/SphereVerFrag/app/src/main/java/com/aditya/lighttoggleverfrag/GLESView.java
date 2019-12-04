@@ -43,7 +43,6 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 	private boolean isLightning = false;
 	private float   perspectiveProjectionMatrix[]=new float[16];
 	private float angle_cube;
-	private float zAxis = -2.0f;
 	
 	//sphere loading
 	private int[] vao_sphere = new int[1];
@@ -508,7 +507,7 @@ public class GLESView extends GLSurfaceView implements GLSurfaceView.Renderer, O
 		//Matrix.setIdentityM(rotationMatrix, 0);
 		
 		//multiply modelview and projection matrix to get modelViewProjection matrix
-		Matrix.translateM(modelMatrix, 0, 0.0f, 0.0f, zAxis);
+		Matrix.translateM(modelMatrix, 0, 0.0f, 0.0f, -2.0f);
 		
 		//pass model View matrix to shader
 		
