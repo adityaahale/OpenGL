@@ -22,7 +22,7 @@ using namespace vmath;
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
-#define PI 3.14285714286
+
 enum
 {
 	AMC_ATTRIBUTE_POSITION = 0,
@@ -49,23 +49,20 @@ GLuint VertexShaderObject;
 GLuint FragmentShaderObject;
 GLuint ShaderProgramObject;
 
-GLuint Vao_horizontal;
-GLuint Vbo_horizontal_position;
-GLuint Vbo_horizontal_color;
+GLuint Vao_pyramid;
+GLuint Vbo_pyramid_position;
+GLuint Vbo_pyramid_texture;
 
-GLuint Vao_veritical;
-GLuint Vbo_veritical_position;
-GLuint Vbo_veritical_color;
-
-GLuint Vao_graph;
-GLuint Vbo_graph_position;
-
+GLuint Vao_cube;
+GLuint Vbo_cube_position;
+GLuint Vbo_cube_texture;
 
 GLuint MVPUniform;
 GLuint samplerUniform;
 
 GLuint Texture_Kundali;
 GLuint Texture_Stone;
+GLuint Texture_Smiley;
 
 mat4 PerspectiveProjectionMatrix;
 
@@ -334,6 +331,52 @@ void ToggleFullscreen(void)
 			   &event);	
 }
 
+bool LoadGLTextures(GLuint *texture, const char *path)
+{
+	/*texture = SOIL_load_OGL_texture("Smiley.bmp",
+                                     SOIL_LOAD_AUTO,
+                                     SOIL_CREATE_NEW_ID,
+                                     SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_MULTIPLY_ALPHA
+                                    );
+    /*if(*texture == NULL){
+        printf("[Texture loader] \"%s\" failed to load!\n", filename);
+}*/
+	bool bStatus = false;
+	int width,height;
+	unsigned char *ImageData=NULL;
+
+	//glGenTextures(1, texture);
+	ImageData=SOIL_load_image(path,&width,&height,0,SOIL_LOAD_RGB);
+	if (ImageData==NULL)
+	{
+		bStatus = false;
+		return bStatus;
+	}
+	else
+	{
+		bStatus=true;
+		
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glGenTextures(1, texture);
+		glBindTexture(GL_TEXTURE_2D, *texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		//gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB,GL_UNSIGNED_BYTE,ImageData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		
+		SOIL_free_image_data(ImageData);
+	
+		return (bStatus);
+}
+		
+	
+	glDeleteTextures(1, texture);
+}
+
+
 
 void initialize(void)
 {
@@ -364,7 +407,7 @@ void initialize(void)
 		printf("Failed To Create GLX 4.5 context. Hence Using Old-Style GLX Context\n");
 		gGLXContext = glXCreateContextAttribsARB(gpDisplay,gGLXFBConfig,0,True,attribs);
 	}
-	else // successfully created 4.5 context
+	else // successfully created 4.1 context
 	{
 		printf("OpenGL Context 4.5 Is Created.\n");
 	}
@@ -400,13 +443,13 @@ void initialize(void)
 		"#version 450 core" \
 		"\n" \
 		"in vec4 vPosition;" \
-		"in vec4 vColor;" \
+		"in vec2 vTex;" \
 		"uniform mat4 u_mvp_matrix;" \
-		"out vec4 out_color;"
+		"out vec2 out_tex;" \
 		"void main(void)" \
 		"{" \
 		"gl_Position = u_mvp_matrix * vPosition;" \
-		"out_color = vColor;"
+		"out_tex = vTex;" \
 		"}";
 	glShaderSource(VertexShaderObject, 1, (const GLchar **)&vertexShaderSourceCode, NULL);
 
@@ -442,11 +485,12 @@ void initialize(void)
 	const GLchar *fragmentShaderSourceCode =
 		"#version 450 core" \
 		"\n" \
-		"in vec4 out_color;"
+		"in vec2 out_tex;" \
+		"uniform sampler2D u_sampler;" \
 		"out vec4 FragColor;" \
 		"void main(void)" \
 		"{" \
-		"FragColor = out_color;" \
+		"FragColor = texture(u_sampler, out_tex);" \
 		"}";
 	glShaderSource(FragmentShaderObject, 1, (const GLchar **)&fragmentShaderSourceCode, NULL);
 
@@ -483,7 +527,7 @@ void initialize(void)
 
 	// pre-link binding of shader program object with vertex shader position attribute
 	glBindAttribLocation(ShaderProgramObject, AMC_ATTRIBUTE_POSITION, "vPosition");
-	glBindAttribLocation(ShaderProgramObject, AMC_ATTRIBUTE_COLOR, "vColor");
+	glBindAttribLocation(ShaderProgramObject, AMC_ATTRIBUTE_TEXTURE0, "vTex");
 
 	// pre-link binding of shader program object with vertex shader color attribute
 //	glBindAttribLocation(ShaderProgramObject, AMC_ATTRIBUTE_COLOR, "vColor");
@@ -512,166 +556,81 @@ void initialize(void)
 
 	// get MVP uniform location
 	MVPUniform = glGetUniformLocation(ShaderProgramObject, "u_mvp_matrix");
-	//samplerUniform = glGetUniformLocation(ShaderProgramObject, "u_sampler");
+	samplerUniform = glGetUniformLocation(ShaderProgramObject, "u_sampler");
 
 
 	// *** vertices, colors, shader attribs, vbo, vao initializations ***
-	const GLfloat horizontalVertices[] =
+	
+	// separated two arrays of cube according to above mixed array
+	GLfloat cubeVertices[] =
 	{
-		-1.0f,0.0f,0.0f,
-		1.0f,0.0f,0.0f
-	};
-
-	const GLfloat horizontalColor[] =
-	{
-		1.0f,0.0f,0.0f,
-		1.0f,0.0f,0.0f
+		1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f
 	};
 
 	
-	const GLfloat verticalVertices[] =
+	const GLfloat cubeTex[] =
 	{
-		0.0f,1.0f,0.0f,
-		0.0f,-1.0f,0.0f
-	};
-	
-	
-
-	const GLfloat verticalColor[] =
-	{
-		0.0f,1.0f,0.0f,
-		0.0f,1.0f,0.0f
+		1.0f,1.0f,
+		0.0f,1.0f,
+		0.0f,0.0f,
+		1.0f,0.0f
 	};
 
-	GLfloat graphVertices[8000];
-	int k = 0;
-	for (float i = -1.0f; i < 1; i += (float)2 / 40)
-	{
-		//glColor3f(0.0f, 0.0f, 1.0f);
-		graphVertices[k] = 1.0f;
-		k++;
-		graphVertices[k] = i;
-		k++;
-		graphVertices[k] = 0.0f;
-		k++;
-
-		graphVertices[k] = -1.0f;
-		k++;
-		graphVertices[k] = i;
-		k++;
-		graphVertices[k] = 0.0f;
-		k++;
-
-		graphVertices[k] = i;
-		k++;
-		graphVertices[k] = -1.0f;
-		k++;
-		graphVertices[k] = 0.0f;
-		k++;
-
-		graphVertices[k] = i;
-		k++;
-		graphVertices[k] = 1.0f;
-		k++;
-		graphVertices[k] = 0.0f;
-		k++;
-	}
 	
-	// HORIZONTAL CODE
-	glGenVertexArrays(1, &Vao_horizontal);
-	glBindVertexArray(Vao_horizontal);
+	// CUBE CODE
+	glGenVertexArrays(1, &Vao_cube);
+	glBindVertexArray(Vao_cube);
 
 	// vbo for position
-	glGenBuffers(1, &Vbo_horizontal_position);
-	glBindBuffer(GL_ARRAY_BUFFER, Vbo_horizontal_position);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(horizontalVertices), horizontalVertices, GL_STATIC_DRAW);
+	glGenBuffers(1, &Vbo_cube_position);
+	glBindBuffer(GL_ARRAY_BUFFER, Vbo_cube_position);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(AMC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for x,y,z in Vertices array
+	glVertexAttribPointer(AMC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for x,y,z in cubeVertices array
 
 	glEnableVertexAttribArray(AMC_ATTRIBUTE_POSITION);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// vbo for color
-	glGenBuffers(1, &Vbo_horizontal_color);
-	glBindBuffer(GL_ARRAY_BUFFER, Vbo_horizontal_color);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(horizontalColor), horizontalColor, GL_STATIC_DRAW);
+	glGenBuffers(1, &Vbo_cube_texture);
+	glBindBuffer(GL_ARRAY_BUFFER, Vbo_cube_texture);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTex), cubeTex, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(AMC_ATTRIBUTE_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for r,g,b in Colors array
+	glVertexAttribPointer(AMC_ATTRIBUTE_TEXTURE0, 2, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for r,g,b in cubeTex array
 
-	glEnableVertexAttribArray(AMC_ATTRIBUTE_COLOR);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-	
-
-	// VERTICAL CODE
-	glGenVertexArrays(1, &Vao_veritical);
-	glBindVertexArray(Vao_veritical);
-
-	// vbo for position
-	glGenBuffers(1, &Vbo_veritical_position);
-	glBindBuffer(GL_ARRAY_BUFFER, Vbo_veritical_position);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticalVertices), verticalVertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(AMC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for x,y,z in Vertices array
-
-	glEnableVertexAttribArray(AMC_ATTRIBUTE_POSITION);
+	glEnableVertexAttribArray(AMC_ATTRIBUTE_TEXTURE0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for color
-	glGenBuffers(1, &Vbo_veritical_color);
-	glBindBuffer(GL_ARRAY_BUFFER, Vbo_veritical_color);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticalColor), verticalColor, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(AMC_ATTRIBUTE_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for r,g,b in Color array
-
-	glEnableVertexAttribArray(AMC_ATTRIBUTE_COLOR);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-	
-	
-	//GRAPH CODE
-
-	glGenVertexArrays(1, &Vao_graph);
-	glBindVertexArray(Vao_graph);
-
-	// vbo for position
-	glGenBuffers(1, &Vbo_graph_position);
-	glBindBuffer(GL_ARRAY_BUFFER, Vbo_graph_position);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(graphVertices), graphVertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(AMC_ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); // 3 is for x,y,z in Vertices array
-
-	glEnableVertexAttribArray(AMC_ATTRIBUTE_POSITION);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// vbo for color
-	glVertexAttrib3f(AMC_ATTRIBUTE_COLOR, 0.0f, 0.0f, 1.0f);
 
 	glBindVertexArray(0);
 	// ==================
 	
-	
-	
+	glShadeModel(GL_SMOOTH);
+	// set-up depth buffer
 	glClearDepth(1.0f);
-	
+	// enable depth testing
 	glEnable(GL_DEPTH_TEST);
-	
-	glDisable(GL_CULL_FACE);
+	// depth test to do
+	glDepthFunc(GL_LEQUAL);
+	// set really nice percpective calculations ?
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+	// We will always cull back faces for better performance
+	glEnable(GL_CULL_FACE);
 
-	
+	// set background clearing color
 	glClearColor(0.0f,0.0f,0.0f,0.0f); // black
 	
+	LoadGLTextures(&Texture_Smiley,"Smiley.bmp");
+		
+	glEnable(GL_TEXTURE_2D);
+	// set perspective matrix to identitu matrix
 	PerspectiveProjectionMatrix = mat4::identity();	
 	// resize
 	resize(WIN_WIDTH, WIN_HEIGHT);
-
 }
 
 void resize(int width,int height)
@@ -696,70 +655,29 @@ void display(void)
 	mat4 modelViewMatrix;
 	mat4 modelViewProjectionMatrix;
 	mat4 translationMatrix;
-	mat4 rotationMatrix;
-
-	// OpenGL Drawing
-	glLineWidth(3.0f);
-	//draw horizontal line
-	glBindVertexArray(Vao_horizontal);
+	
+	
+	// CUBE CODE
 	modelViewMatrix = mat4::identity();
 	modelViewProjectionMatrix = mat4::identity();
 	translationMatrix = mat4::identity();
-	rotationMatrix = mat4::identity();
-
-	translationMatrix = translate(0.0f, 0.0f, -1.0f);
-
-	modelViewMatrix = translationMatrix;
-	modelViewProjectionMatrix = PerspectiveProjectionMatrix * modelViewMatrix;
-
-	glUniformMatrix4fv(MVPUniform, 1, GL_FALSE, modelViewProjectionMatrix);
-
-	glDrawArrays(GL_LINES, 0, 200); 
-
-	// *** unbind vao ***
-	glBindVertexArray(0);
-	// ==================
-
-	// draw vertical
-	glBindVertexArray(Vao_veritical);
-	modelViewMatrix = mat4::identity();
-	modelViewProjectionMatrix = mat4::identity();
-	translationMatrix = mat4::identity();
-	rotationMatrix = mat4::identity();
+	
 
 	//MultiplyMatrices
-	translationMatrix=translate(0.0f, 0.0f, -1.0f);
+	translationMatrix=translate(0.0f, 0.0f, -3.5f);
 	modelViewMatrix = translationMatrix;
 	modelViewProjectionMatrix = PerspectiveProjectionMatrix * modelViewMatrix;
 
 	glUniformMatrix4fv(MVPUniform, 1, GL_FALSE, modelViewProjectionMatrix);
 
 	// *** bind vao ***
-
-	glDrawArrays(GL_LINES, 0, 3);
-
-	// *** unbind vao ***
-	glBindVertexArray(0);
-
-	//draw graph
+	glBindVertexArray(Vao_cube);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(Vao_cube);
+	glBindTexture(GL_TEXTURE_2D, Texture_Smiley);
+	glUniform1i(samplerUniform, 0);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	
-	glBindVertexArray(Vao_graph);
-	glLineWidth(1.0f);
-	modelViewMatrix = mat4::identity();
-	modelViewProjectionMatrix = mat4::identity();
-	rotationMatrix = mat4::identity();
-	translationMatrix = mat4::identity();
-	
-	//MultiplyMatrices
-	modelViewMatrix = translate(0.0f, 0.0f, 0.0f);
-	translationMatrix = translate(0.0f, 0.0f, -1.0f);
-	modelViewMatrix = modelViewMatrix * translationMatrix;
-	modelViewProjectionMatrix = PerspectiveProjectionMatrix * modelViewMatrix;
-
-	glUniformMatrix4fv(MVPUniform, 1, GL_FALSE, modelViewProjectionMatrix);
-
-	glDrawArrays(GL_LINES, 0, 200);
-
 	// *** unbind vao ***
 	glBindVertexArray(0);
 
@@ -787,67 +705,70 @@ void spin(void)
 void uninitialize(void)
 {
 	//code
-
+	// PYRAMID
 	// destroy vao
-	if (Vao_horizontal)
+	if (Vao_pyramid)
 	{
-		glDeleteVertexArrays(1, &Vao_horizontal);
-		Vao_horizontal = 0;
+		glDeleteVertexArrays(1, &Vao_pyramid);
+		Vao_pyramid = 0;
 	}
 
 	// destroy vbo position
-	if (Vbo_horizontal_position)
+	if (Vbo_pyramid_position)
 	{
-		glDeleteBuffers(1, &Vbo_horizontal_position);
-		Vbo_horizontal_position = 0;
+		glDeleteBuffers(1, &Vbo_pyramid_position);
+		Vbo_pyramid_position = 0;
 	}
 
 	// destroy vbo color
-	if (Vbo_horizontal_color)
+	if (Vbo_pyramid_texture)
 	{
-		glDeleteBuffers(1, &Vbo_horizontal_color);
-		//glDeleteTextures(1, &Texture_Stone);
-		//Texture_Stone = 0;
-		Vbo_horizontal_color = 0;
+		glDeleteBuffers(1, &Vbo_pyramid_texture);
+		glDeleteTextures(1, &Texture_Stone);
+		Texture_Stone = 0;
+		Vbo_pyramid_texture = 0;
 	}
 
-	
-	if (Vao_veritical)
+	// CUBE
+	if (Vao_cube)
 	{
-		glDeleteVertexArrays(1, &Vao_veritical);
-		Vao_veritical = 0;
+		glDeleteVertexArrays(1, &Vao_cube);
+		Vao_cube = 0;
 	}
 
 	// destroy vbo position
-	if (Vbo_veritical_position)
+	if (Vbo_cube_position)
 	{
-		glDeleteBuffers(1, &Vbo_veritical_position);
-		Vbo_veritical_position = 0;
+		glDeleteBuffers(1, &Vbo_cube_position);
+		Vbo_cube_position = 0;
 	}
 
 	// destroy vbo color
-	if (Vbo_veritical_color)
+	if (Vbo_cube_texture)
 	{
-		glDeleteBuffers(1, &Vbo_veritical_color);
-		//glDeleteTextures(1, &Texture_Kundali);
-		//Texture_Kundali = 0;
-		Vbo_veritical_color = 0;
+		glDeleteBuffers(1, &Vbo_cube_texture);
+		glDeleteTextures(1, &Texture_Smiley);
+		Texture_Smiley = 0;
+		Vbo_cube_texture = 0;
 	}
 	
-	if (Vao_graph)
-	{
-		glDeleteVertexArrays(1, &Vao_graph);
-		Vao_graph = 0;
-	}
+	// detach vertex shader from shader program object
+	glDetachShader(ShaderProgramObject, VertexShaderObject);
+	// detach fragment  shader from shader program object
+	glDetachShader(ShaderProgramObject, FragmentShaderObject);
 
-	// destroy vbo position
-	if (Vbo_graph_position)
-	{
-		glDeleteBuffers(1, &Vbo_graph_position);
-		Vbo_graph_position = 0;
-	}
-	
-	
+	// delete vertex shader object
+	glDeleteShader(VertexShaderObject);
+	VertexShaderObject = 0;
+	// delete fragment shader object
+	glDeleteShader(FragmentShaderObject);
+	FragmentShaderObject = 0;
+
+	// delete shader program object
+	glDeleteProgram(ShaderProgramObject);
+	ShaderProgramObject = 0;
+
+	// unlink shader program
 	glUseProgram(0);
 
 	// Releasing OpenGL related and XWindow related objects 	
