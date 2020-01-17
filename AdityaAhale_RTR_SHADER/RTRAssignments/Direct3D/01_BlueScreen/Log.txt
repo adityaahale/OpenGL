@@ -1,0 +1,388 @@
+log file createdD3D11CreateDeviceAndSwapChain() SUCCEEDED 
+The Chosen Driver is of  Hardware Type.
+The Supported Highest Feature Level is:11.0
+D3D11Device::CreateRenderTargetView() Succeeded. 
+resize() Succeeded. 
+initialize() SUCCEEDED 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+D3D11Device::CreateRenderTargetView() Succeeded. 
+initialize() SUCCEEDED. Exiting 
+uninitialize() SUCCEEDED. 
+Log file is successfully closed. 
+uninitialize() SUCCEEDED. 
+Log file is successfully closed. 
