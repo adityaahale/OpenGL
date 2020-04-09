@@ -1,0 +1,3 @@
+#include "interleave.h"
+
+IDBITMAP_MARBLE BITMAP marble.bmp
